@@ -17,7 +17,7 @@
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li>login</li>
+			<li><a href="./auth.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -35,7 +35,15 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="head-portfolio">
+			<h2>Mes Projets</h2>
+			<div class="modification-projet">
+				<i class="fa-regular fa-pen-to-square"></i>
+				<span>modifier</span>
+			</div>
+		</div>
+		<div class="filter">
+		</div>
 		<div class="gallery">
 		</div>
 	</section>
@@ -54,6 +62,17 @@
 	</section>
 </main>
 
+<aside class="container-modal">
+	<div class="modal">
+		<i class="fa-solid fa-xmark"></i>
+		<h3>Galerie photo</h3>
+		<div class="container-projet">
+		</div>
+		<div class="hr"></div>
+		<button type="submit">Ajouter une photo</button>
+	</div>
+</aside>
+
 <footer>
 	<nav>
 		<ul>
@@ -63,5 +82,6 @@
 </footer>
 <script src="./js/API.js" type="module"></script>
 <script src="./js/script.js" type="module"></script>
+<script src="https://kit.fontawesome.com/1d8563a21a.js" crossorigin="anonymous"></script>
 </body>
 </html>
