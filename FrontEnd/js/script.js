@@ -57,9 +57,7 @@ const projetAPI = async () => {
 
         // Ajoutez des écouteurs d'événements à chaque bouton de suppression
         DeleteProjetIcon.forEach(DeleteProjet => {
-            DeleteProjet.addEventListener('click', async (event) => {
-                // Empêchez le comportement par défaut du lien ou du bouton
-                event.preventDefault();
+            DeleteProjet.addEventListener('click', async () => {
 
                 // Récupérez l'ID du projet à partir de l'attribut id du bouton de suppression
                 const ProjetId = DeleteProjet.id;
@@ -157,6 +155,7 @@ const categoriesProjets = async () => {
 categoriesProjets();
 projetAPI();
 
+
 // Récupère la valeur associée à la clé 'IsLogin' dans le stockage local
 const IsLogin = sessionStorage.getItem('IsLogin');
 console.log(IsLogin);
@@ -204,11 +203,10 @@ if (IsLogin) {
 
         // Ajoutez un gestionnaire d'événements au changement du bouton de fichier
         fileInput.addEventListener('change', () => {
-            imgProjet = fileInput.files[0].name;
-            const file = fileInput.files[0];
+            imgProjet = fileInput.files[0];
             const previewImage = document.createElement('img');
 
-            if (file) {
+            if (imgProjet) {
                 
                 previewImage.classList.add('img-preview');
 
@@ -224,7 +222,7 @@ if (IsLogin) {
                 };
 
                 // Lisez le contenu de l'image en tant que Data URL
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(imgProjet);
             }
         });
 
@@ -236,6 +234,7 @@ if (IsLogin) {
         // Supprimez d'abord toutes les options existantes
         select.innerHTML = "";
         
+        // creation du select
         categories.forEach((categorie) => {
             const option = document.createElement("option");
             option.value = categorie.id;
@@ -252,20 +251,19 @@ if (IsLogin) {
 
             e.preventDefault();
         
+            const formData  = new FormData();
             const nameProjet = document.querySelector('.nameProjet').value;
-            const categorieProjet = document.querySelector('.select').value;
-            console.log(categorieProjet)
+            const select = document.querySelector('.select');
+            const Catvalue = parseInt(select.value, 10);
 
-            const DataNewprojet = {
-                categoryId: categorieProjet,
-                title: nameProjet,
-                imageUrl: imgProjet
-            };
+            formData.append('image', imgProjet);
+            formData.append('title', nameProjet);
+            formData.append('category', Catvalue);
 
-            console.log(DataNewprojet);
+            console.log(formData);
             try {
                 // Utilisez la fonction AjoutData pour ajouter les données via une requête POST
-                const newprojet = await AjoutData('http://localhost:5678/api/works', DataNewprojet);
+                const newprojet = await AjoutData('http://localhost:5678/api/works', formData );
                 console.log(newprojet);
                 
                 // Mettez à jour la galerie après l'ajout du nouveau projet

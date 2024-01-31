@@ -75,10 +75,9 @@ const AjoutData = async (url, data) => {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${authToken}`
             },
-            body: JSON.stringify(data),
+            body: data,
         });
 
         if (!response.ok) {
