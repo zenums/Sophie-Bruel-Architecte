@@ -12,15 +12,23 @@
 </head>
 <body>
 <header>
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-	<nav>
-		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li><a href="./auth.html">login</a></li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-		</ul>
+	<nav class="edition">
+		<div class="modification-projet">
+			<i class="fa-regular fa-pen-to-square"></i>
+			<span>Mode édition</span>
+		</div>
 	</nav>
+	<div class="navbar">
+		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		<nav>
+			<ul>
+				<li>projets</li>
+				<li>contact</li>
+				<li><a href="./auth.html">login</a></li>
+				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+			</ul>
+		</nav>
+	</div>
 </header>
 <main>
 	<section id="introduction">
@@ -63,14 +71,39 @@
 </main>
 
 <aside class="container-modal">
-	<div class="modal">
+	<div class="modal presentation">
 		<i class="fa-solid fa-xmark"></i>
 		<h3>Galerie photo</h3>
-		<div class="container-projet">
-		</div>
+		<div class="container-projet"></div>
 		<div class="hr"></div>
-		<button type="submit">Ajouter une photo</button>
+		<button type="submit" class="next-modal">Ajouter une photo</button>
 	</div>
+	<div class="modal ajout">
+        <i class="fa-solid fa-xmark"></i>
+        <i class="fa-solid fa-arrow-left"></i>
+        <div class="current-modal">
+            <h3>Ajout Photo</h3>
+			<form action="" method="post"class="formAjout">
+				<div class="upload-img">
+					<img src="./assets/icons/picture-svgrepo-com 1.png">
+					<div class="upload-button">
+						<label for="upload-img" class="label-file">+ Ajouter photo</label>
+						<input type="file" name="file" class="button-file">
+					</div>
+					<span>jpg, png : 4mo max</span>
+				</div>
+				<label for="titre" class="label-ajout">Titre</label>
+				<input required type="text" name="naneProjet" class="input-ajout nameProjet">
+				<label for="categorie" class="label-ajout">Catégorie</label>
+				<select required name="categorie"class="input-ajout select">
+				</select>
+				<div class="hr"></div>
+				<button type="submit" class="save-projet">Valider</button>
+			</form>
+			<span class="error-ajout">Erreur lors de l'ajout d'un projet.</span>
+			<span class="success-ajout">Votre projet a été ajouté avec succès.</span>
+        </div>
+    </div>
 </aside>
 
 <footer>

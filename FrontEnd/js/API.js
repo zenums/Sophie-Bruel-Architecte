@@ -18,7 +18,6 @@ const postData = async (url, data) => {
     try {
         const response = await fetch(url, {
             method: 'POST',
-            
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -37,11 +36,10 @@ const postData = async (url, data) => {
     }
 };
 
-
 const deleteData = async (url) => {
     try {
 
-        const authToken = localStorage.getItem('authToken');
+        const authToken = sessionStorage.getItem('authToken');
         
         const options = {
             method: 'DELETE',
@@ -70,4 +68,31 @@ const deleteData = async (url) => {
     }
 };
 
-export { fetchData, postData, deleteData };
+const AjoutData = async (url, data) => {
+    try {
+        const authToken = sessionStorage.getItem('authToken');
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP! Statut : ${response.status}`);
+        }
+
+        const responseData = await response.json();
+        console.log('Données ajoutées avec succès:', responseData);
+        return responseData;
+
+    } catch (error) {
+        console.error('Erreur lors de l\'ajout des données :', error);
+        throw error;
+    }
+};
+
+export { fetchData, postData, deleteData, AjoutData };

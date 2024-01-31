@@ -1,15 +1,18 @@
 // Importez la fonction fetchData depuis le fichier API.js
-import { fetchData, deleteData } from './API.js';
+import { fetchData, deleteData, AjoutData, postData } from './API.js';
 
 // Sélectionnez les éléments du DOM pour la galerie et les filtres
 const Gallery = document.querySelector('.gallery');
 const Filter = document.querySelector('.filter');
 
-const Edit = document.querySelector('.modification-projet');
+const Edit = document.querySelectorAll('.modification-projet');
 
 const Modal = document.querySelector('.container-modal');
+const ModalPresentation = document.querySelector('.presentation');
+const ModalAjout = document.querySelector('.ajout');
 const ContainerProjet_Modal = document.querySelector('.container-projet');
-const CloseModal = document.querySelector('.fa-xmark');
+const CloseModal = document.querySelectorAll('.fa-xmark');
+const ButtonAjoutProjet = document.querySelector('.next-modal');
 let DeleteProjetIcon;
 
 // Déclarez des variables globales pour stocker les données des projets et des catégories
@@ -155,20 +158,128 @@ categoriesProjets();
 projetAPI();
 
 // Récupère la valeur associée à la clé 'IsLogin' dans le stockage local
-const IsLogin = localStorage.getItem('IsLogin');
-
+const IsLogin = sessionStorage.getItem('IsLogin');
+console.log(IsLogin);
 // Vérifie si la valeur de 'IsLogin' est présente et évaluée à true
 if (IsLogin) {
+    
+    const BandeauxEdition = document.querySelector('.edition').classList.add('active');
     // Si c'est le cas, ajoute la classe 'active' à l'élément avec la classe '.modification-projet'
-    Edit.classList.add('active');
+    Edit.forEach(ed => {
+        ed.classList.add('active');
+    })
+
+    // Ajoutez un écouteur d'événements pour afficher ou masquer le modal lors du clic sur le bouton d'édition
+    Edit.forEach(ed => {
+        ed.addEventListener('click', () => {
+            Modal.classList.toggle('active');
+            ModalPresentation.classList.add('active');
+        })
+    })
+    
+    // Ajoutez un écouteur d'événements pour masquer le modal lors du clic
+    CloseModal.forEach(cm => {
+        cm.addEventListener('click', () => {
+            Modal.classList.remove('active');
+            ModalPresentation.classList.remove('active');
+            ModalAjout.classList.remove('active');
+        })
+    })
+
+    ButtonAjoutProjet.addEventListener('click', () => {
+
+        ModalPresentation.classList.remove('active');
+        ModalAjout.classList.add('active');
+
+        const ContainerFile = document.querySelector('.upload-img');
+        const fileInput = document.querySelector('.button-file');
+        const label = document.querySelector('.label-file');
+        let imgProjet;
+
+        // Ajoutez un gestionnaire d'événements à l'étiquette
+        label.addEventListener('click', () => {
+            // Simulez le clic sur le bouton de fichier
+            fileInput.click();
+        });
+
+        // Ajoutez un gestionnaire d'événements au changement du bouton de fichier
+        fileInput.addEventListener('change', () => {
+            imgProjet = fileInput.files[0].name;
+            const file = fileInput.files[0];
+            const previewImage = document.createElement('img');
+
+            if (file) {
+                
+                previewImage.classList.add('img-preview');
+
+                // Utilisez FileReader pour lire le contenu de l'image et afficher un aperçu
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    // Mettez à jour la source de l'image pour afficher l'aperçu
+                    previewImage.src = e.target.result;
+                    // Ajoutez l'élément img à votre conteneur
+                    ContainerFile.innerHTML = "";
+                    ContainerFile.appendChild(previewImage);
+                };
+
+                // Lisez le contenu de l'image en tant que Data URL
+                reader.readAsDataURL(file);
+            }
+        });
+
+        const ButtonSaveProjet = document.querySelector('.save-projet');
+        const ReturnModal = document.querySelector('.fa-arrow-left');
+        const select = document.querySelector(".select")
+
+    
+        // Supprimez d'abord toutes les options existantes
+        select.innerHTML = "";
+        
+        categories.forEach((categorie) => {
+            const option = document.createElement("option");
+            option.value = categorie.id;
+            option.text = categorie.name;
+            select.appendChild(option);
+        });
+
+        ReturnModal.addEventListener('click', ()=>{
+            ModalAjout.classList.remove('active');
+            ModalPresentation.classList.add('active');
+        })
+
+        ButtonSaveProjet.addEventListener('click', async (e) => {
+
+            e.preventDefault();
+        
+            const nameProjet = document.querySelector('.nameProjet').value;
+            const categorieProjet = document.querySelector('.select').value;
+            console.log(categorieProjet)
+
+            const DataNewprojet = {
+                categoryId: categorieProjet,
+                title: nameProjet,
+                imageUrl: imgProjet
+            };
+
+            console.log(DataNewprojet);
+            try {
+                // Utilisez la fonction AjoutData pour ajouter les données via une requête POST
+                const newprojet = await AjoutData('http://localhost:5678/api/works', DataNewprojet);
+                console.log(newprojet);
+                
+                // Mettez à jour la galerie après l'ajout du nouveau projet
+                await projetAPI();
+
+                const msgSucess = document.querySelector('.success-ajout');
+                msgSucess.classList.add('active');
+
+            } catch (error) {
+                const msgError = document.querySelector('.error-ajout');
+                msgError.classList.add('active');
+                console.error(error);
+            }
+        })
+    });
 }
 
-// Ajoutez un écouteur d'événements pour afficher ou masquer le modal lors du clic sur le bouton d'édition
-Edit.addEventListener('click', () => {
-    Modal.classList.toggle('active');
-})
-
-// Ajoutez un écouteur d'événements pour masquer le modal lors du clic
-CloseModal.addEventListener('click', () => {
-    Modal.classList.remove('active');
-})

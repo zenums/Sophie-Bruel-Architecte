@@ -32,10 +32,10 @@ FormLogin.addEventListener('submit', (e) => {
             console.log(UsersLogin);
 
             // Stocke le jeton d'authentification dans le stockage local
-            localStorage.setItem('authToken', UsersLogin.token);
+            sessionStorage.setItem('authToken', UsersLogin.token);
 
             // Stocke une indication de connexion réussie dans le stockage local
-            localStorage.setItem('IsLogin', true);
+            sessionStorage.setItem('IsLogin', true);
 
             // Redirige l'utilisateur vers la page d'accueil
             window.location.href = '/FrontEnd/index.html';
