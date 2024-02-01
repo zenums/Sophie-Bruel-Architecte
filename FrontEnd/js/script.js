@@ -59,6 +59,7 @@ const projetAPI = async () => {
         DeleteProjetIcon.forEach(DeleteProjet => {
             DeleteProjet.addEventListener('click', async () => {
 
+
                 // Récupérez l'ID du projet à partir de l'attribut id du bouton de suppression
                 const ProjetId = DeleteProjet.id;
                 console.log(ProjetId)
