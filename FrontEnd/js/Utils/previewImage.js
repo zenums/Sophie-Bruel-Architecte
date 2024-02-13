@@ -1,4 +1,4 @@
-import { ContainerFile } from './import.js';
+import { ContainerFile, InfoIMG } from './import.js';
 
 const prewiewImage = (imgProjet, fileInput) => {
 
@@ -13,7 +13,7 @@ const prewiewImage = (imgProjet, fileInput) => {
 
         reader.onload = (e) => {
             previewImage.src = e.target.result;
-            ContainerFile.innerHTML = "";
+            InfoIMG.classList.add('active');
             ContainerFile.appendChild(previewImage);
         };
 

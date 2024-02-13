@@ -24,7 +24,7 @@
 			<ul>
 				<li>projets</li>
 				<li>contact</li>
-				<li><a href="./auth.html">login</a></li>
+				<li class="auth"><a href="./auth.html">login</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
@@ -70,7 +70,7 @@
 	</section>
 </main>
 
-<aside class="container-modal">
+<div class="container-modal">
 	<div class="modal presentation">
 		<i class="fa-solid fa-xmark"></i>
 		<h3>Galerie photo</h3>
@@ -85,12 +85,14 @@
             <h3>Ajout Photo</h3>
 			<form action="" method="post"class="formAjout">
 				<div class="upload-img">
-					<img src="./assets/icons/picture-svgrepo-com 1.png">
-					<div class="upload-button">
-						<label for="upload-img" class="label-file">+ Ajouter photo</label>
-						<input type="file" name="file" class="button-file">
+					<div class="info-img">
+						<img src="./assets/icons/picture-svgrepo-com 1.png">
+						<div class="upload-button">
+							<label for="upload-img" class="label-file">+ Ajouter photo</label>
+							<input type="file" name="file" class="button-file">
+						</div>
+						<span>jpg, png : 4mo max</span>
 					</div>
-					<span>jpg, png : 4mo max</span>
 				</div>
 				<label for="titre" class="label-ajout">Titre</label>
 				<input required type="text" name="naneProjet" class="input-ajout nameProjet">
@@ -104,7 +106,7 @@
 			<span class="success-ajout">Votre projet a été ajouté avec succès.</span>
         </div>
     </div>
-</aside>
+</div>
 
 <footer>
 	<nav>

@@ -7,15 +7,23 @@ import { HandleFiltre } from "./Utils/projet.js";
 const categoriesProjets = async (categories,projetData) => {
     try {
         categories = await fetchData("http://localhost:5678/api/categories");
-    
-        const ContainerCategorie = HTMLfiltre(categories);
-        Filter.innerHTML = ContainerCategorie;
 
-        const Filtres = document.querySelectorAll('.filtre');
+        const IsLogin = sessionStorage.getItem('IsLogin');
+        if (IsLogin){
 
-        Filtres.forEach(filtre => {
-           HandleFiltre(filtre,projetData,Filtres);
-        });
+            Filter.innerHTML = "";
+
+        } else{
+
+            const ContainerCategorie = HTMLfiltre(categories);
+            Filter.innerHTML = ContainerCategorie;
+            
+            const Filtres = document.querySelectorAll('.filtre');
+
+            Filtres.forEach(filtre => {
+               HandleFiltre(filtre,projetData,Filtres);
+            });
+        }
 
     } catch (error) {
         console.error(error);

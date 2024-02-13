@@ -1,10 +1,10 @@
 // Importez la fonction fetchData depuis le fichier API.js
 import { fetchData, AjoutData } from './API.js';
 import { projetHome, projetModal } from './Utils/HTMLprojet.js';
-import { DeleteProjet } from './Utils/projet.js';
+import { DeleteProjet,checkFormValidity, resetForm } from './Utils/projet.js';
 import { categoriesProjets } from './filter.js';
 
-import { Modal, ModalPresentation, ModalAjout, CloseModal, Edit, ButtonAjoutProjet, ContainerProjet_Modal, Gallery, fileInput,btn_ajout_photo, ButtonSaveProjet,ReturnModal,select,msgSucess,msgError } from './Utils/import.js';
+import { Modal, ModalPresentation, ModalAjout, CloseModal, Edit, ButtonAjoutProjet, ContainerProjet_Modal, Gallery, fileInput,btn_ajout_photo, ButtonSaveProjet,ReturnModal,select,nameProjet,msgSucess,msgError, auth } from './Utils/import.js';
 
 import prewiewImage from './Utils/previewImage.js';
 
@@ -46,6 +46,13 @@ projetAPI();
 
 const IsLogin = sessionStorage.getItem('IsLogin');
 if (IsLogin) {
+
+    auth.innerHTML = "logout";
+    auth.addEventListener('click', () => {
+        sessionStorage.clear();
+        auth.innerHTML = "login";
+        window.location.reload();
+    })
     
     const BandeauxEdition = document.querySelector('.edition').classList.add('active');
   
@@ -70,18 +77,20 @@ if (IsLogin) {
         ModalPresentation.classList.add('active');
     })
 
-
-
     ButtonAjoutProjet.addEventListener('click', () => {
 
         ModalPresentation.classList.remove('active');
         ModalAjout.classList.add('active');
+
+        nameProjet.addEventListener('input', checkFormValidity);
+        select.addEventListener('input', checkFormValidity);
 
         // création de l'image preview
         let imgProjet;
 
         btn_ajout_photo.addEventListener('click', () => {
             fileInput.click();
+            fileInput.addEventListener('input', checkFormValidity(fileInput));
         });
 
         fileInput.addEventListener('change', () => {
@@ -89,6 +98,7 @@ if (IsLogin) {
         });
 
 
+        select.innerHTML = "";
         // création du select pour les catégories
         categories.forEach((categorie) => {
             const option = document.createElement("option");
@@ -97,18 +107,16 @@ if (IsLogin) {
             select.appendChild(option);
         });
 
-
         ButtonSaveProjet.addEventListener('click', async (e) => {
 
             e.preventDefault();
         
             const formData  = new FormData();
-            const nameProjet = document.querySelector('.nameProjet').value;
-            const select = document.querySelector('.select');
+            const nameProjetForm = nameProjet.value;
             const Catvalue = select.value;
 
             formData.append('image', imgProjet);
-            formData.append('title', nameProjet);
+            formData.append('title', nameProjetForm);
             formData.append('category', Catvalue);
 
             try {
@@ -118,6 +126,8 @@ if (IsLogin) {
                 await projetAPI();
 
                 msgSucess.classList.add('active');
+                
+                resetForm();
 
             } catch (error) {
                 msgError.classList.add('active');
