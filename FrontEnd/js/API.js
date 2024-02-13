@@ -94,4 +94,4 @@ const AjoutData = async (url, data) => {
     }
 };
 
-export { fetchData, postData, deleteData, AjoutData };
+export { fetchData, deleteData, AjoutData, postData };
