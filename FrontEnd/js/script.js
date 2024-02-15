@@ -77,25 +77,25 @@ if (IsLogin) {
         ModalPresentation.classList.add('active');
     })
 
+    nameProjet.addEventListener('input', checkFormValidity);
+    select.addEventListener('input', checkFormValidity);
+    fileInput.addEventListener('input', checkFormValidity);
+
+     // création de l'image preview
+     let imgProjet;
+
+     btn_ajout_photo.addEventListener('click', () => {
+         fileInput.click();
+     });
+
+     fileInput.addEventListener('change', () => {
+         imgProjet = prewiewImage(imgProjet, fileInput);
+     });
+
     ButtonAjoutProjet.addEventListener('click', () => {
 
         ModalPresentation.classList.remove('active');
         ModalAjout.classList.add('active');
-
-        nameProjet.addEventListener('input', checkFormValidity);
-        select.addEventListener('input', checkFormValidity);
-
-        // création de l'image preview
-        let imgProjet;
-
-        btn_ajout_photo.addEventListener('click', () => {
-            fileInput.click();
-            fileInput.addEventListener('input', checkFormValidity(fileInput));
-        });
-
-        fileInput.addEventListener('change', () => {
-            imgProjet = prewiewImage(imgProjet, fileInput);
-        });
 
 
         select.innerHTML = "";
@@ -106,34 +106,34 @@ if (IsLogin) {
             option.text = categorie.name;
             select.appendChild(option);
         });
+    });
 
-        ButtonSaveProjet.addEventListener('click', async (e) => {
+    ButtonSaveProjet.addEventListener('click', async (e) => {
 
-            e.preventDefault();
-        
-            const formData  = new FormData();
-            const nameProjetForm = nameProjet.value;
-            const Catvalue = select.value;
+        e.preventDefault();
+    
+        const formData  = new FormData();
+        const nameProjetForm = nameProjet.value;
+        const Catvalue = select.value;
 
-            formData.append('image', imgProjet);
-            formData.append('title', nameProjetForm);
-            formData.append('category', Catvalue);
+        formData.append('image', imgProjet);
+        formData.append('title', nameProjetForm);
+        formData.append('category', Catvalue);
 
-            try {
-                const newprojet = await AjoutData('http://localhost:5678/api/works', formData );
-                console.log(newprojet);
-                
-                await projetAPI();
+        try {
+            const newprojet = await AjoutData('http://localhost:5678/api/works', formData );
+            console.log(newprojet);
+            
+            await projetAPI();
 
-                msgSucess.classList.add('active');
-                
-                resetForm();
+            msgSucess.classList.add('active');
+            
+            resetForm();
 
-            } catch (error) {
-                msgError.classList.add('active');
-                console.error(error);
-            }
-        })
+        } catch (error) {
+            msgError.classList.add('active');
+            console.error(error);
+        }
     });
 }
 

@@ -1,6 +1,6 @@
 import { deleteData } from '../API.js';
 import { projetHome } from './HTMLprojet.js';
-import { Gallery, nameProjet, InfoIMG, Modal, ModalPresentation, ModalAjout, msgSucess, select, ButtonSaveProjet} from './import.js';
+import { Gallery, nameProjet, InfoIMG, Modal, ModalPresentation, ModalAjout, msgSucess, select, ButtonSaveProjet,fileInput} from './import.js';
 
 const DeleteProjet = ( DeleteProjet,projetAPI ) => {
 
@@ -50,13 +50,14 @@ const HandleFiltre = (filtre,projetData, Filtres) => {
     });
 }
 
-const checkFormValidity = (fileInput) => {
+const checkFormValidity = () => {
     const nameProjetFilled = nameProjet.value.trim() !== '';
     const selectFilled = select.value.trim() !== '';
+    const fileInputData = fileInput.files[0];
 
-    console.log(nameProjetFilled, selectFilled, fileInput);
+    console.log(nameProjetFilled, selectFilled, fileInputData);
 
-    if (nameProjetFilled && selectFilled &&  fileInput) {
+    if (nameProjetFilled && selectFilled &&  fileInputData) {
         ButtonSaveProjet.classList.add('active');
     } else {
         ButtonSaveProjet.classList.remove('active');
