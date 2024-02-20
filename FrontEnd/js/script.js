@@ -84,11 +84,12 @@ if (IsLogin) {
      // création de l'image preview
      let imgProjet;
 
-     btn_ajout_photo.addEventListener('click', () => {
+     btn_ajout_photo.addEventListener('click', (e) => {
+         e.preventDefault();
          fileInput.click();
      });
 
-     fileInput.addEventListener('change', () => {
+     fileInput.addEventListener('input', () => {
          imgProjet = prewiewImage(imgProjet, fileInput);
      });
 
@@ -97,8 +98,8 @@ if (IsLogin) {
         ModalPresentation.classList.remove('active');
         ModalAjout.classList.add('active');
 
-
         select.innerHTML = "";
+
         // création du select pour les catégories
         categories.forEach((categorie) => {
             const option = document.createElement("option");

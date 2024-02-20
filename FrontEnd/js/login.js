@@ -1,8 +1,6 @@
 import { postData } from './API.js';
 import { FormLogin,InputMail,InputMdp,ErrorLogin } from './Utils/import.js';
 
-console.log('FormLogin',FormLogin);
-
 FormLogin.addEventListener('submit', (e) => {
    
     e.preventDefault();

@@ -10,9 +10,7 @@ const categoriesProjets = async (categories,projetData) => {
 
         const IsLogin = sessionStorage.getItem('IsLogin');
         if (IsLogin){
-
             Filter.innerHTML = "";
-
         } else{
 
             const ContainerCategorie = HTMLfiltre(categories);
